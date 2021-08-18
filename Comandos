@@ -1,0 +1,32 @@
+1. Instalacion Chocolaty
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+
+2.Instalar Minikube
+choco install minikube
+
+3.Iniciar el servicio de Minikube
+minikube start --cpus 6 --memory 8192 --vm-driver=virtualbox
+
+4.Descargar e Instalar Istio
+https://github.com/istio/istio/releases/tag/1.11.0
+istioctl install --set profile=demo -y
+
+5. Ubicarnos en la carpeta de Istio
+cd..
+cd..
+cd istio-1.11.0
+
+6. Injectamos Istio en label Default
+kubectl label namespace default istio-injection=enabled
+
+7. Ejecutarl el archivo kubernetes-manifest.yaml
+kubectl apply -f kubernetes-manifests.yaml
+
+8. Revisamos que los pod se ejecutan correctamente
+kubectl get pods
+
+9. Aplicamos los complementos
+ kubectl apply -f samples/addons
+ 
+ 10. Revisamos el dashboard
+istioctl dashboard kiali 
